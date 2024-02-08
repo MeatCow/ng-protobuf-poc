@@ -1,0 +1,16 @@
+{
+  "name": "protobuf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client-protos": "protoc --ts_out client/src/app/models/ --proto_path protos definitions.proto"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@protobuf-ts/plugin": "^2.9.3",
+    "typescript": "^5.3.2"
+  }
+}

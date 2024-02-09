@@ -14,12 +14,12 @@ func enableCors(w *http.ResponseWriter) {
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
-	fmt.Printf("got / request\n")
+	fmt.Printf("got %s request\n", r.URL.Path)
 
 	person := pb.Person{
 		Name: "Matt",
 		Age:  25,
-		Id: 1,
+		Id: "1234",
 	};
 
 	data, err := proto.Marshal(&person);

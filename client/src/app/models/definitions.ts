@@ -19,13 +19,15 @@ export interface Person {
      */
     name: string;
     /**
-     * @generated from protobuf field: uint64 id = 2;
-     */
-    id: bigint;
-    /**
+     * uint64 id = 2;
+     *
      * @generated from protobuf field: int32 age = 3;
      */
     age: number;
+    /**
+     * @generated from protobuf field: string id = 4;
+     */
+    id: string;
     /**
      * @generated from protobuf field: optional bytes data = 5;
      */
@@ -36,16 +38,16 @@ class Person$Type extends MessageType<Person> {
     constructor() {
         super("Person", [
             { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 3, name: "age", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 4, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "data", kind: "scalar", opt: true, T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
     create(value?: PartialMessage<Person>): Person {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.name = "";
-        message.id = 0n;
         message.age = 0;
+        message.id = "";
         if (value !== undefined)
             reflectionMergePartial<Person>(this, message, value);
         return message;
@@ -58,11 +60,11 @@ class Person$Type extends MessageType<Person> {
                 case /* string name */ 1:
                     message.name = reader.string();
                     break;
-                case /* uint64 id */ 2:
-                    message.id = reader.uint64().toBigInt();
-                    break;
                 case /* int32 age */ 3:
                     message.age = reader.int32();
+                    break;
+                case /* string id */ 4:
+                    message.id = reader.string();
                     break;
                 case /* optional bytes data */ 5:
                     message.data = reader.bytes();
@@ -82,12 +84,12 @@ class Person$Type extends MessageType<Person> {
         /* string name = 1; */
         if (message.name !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.name);
-        /* uint64 id = 2; */
-        if (message.id !== 0n)
-            writer.tag(2, WireType.Varint).uint64(message.id);
         /* int32 age = 3; */
         if (message.age !== 0)
             writer.tag(3, WireType.Varint).int32(message.age);
+        /* string id = 4; */
+        if (message.id !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.id);
         /* optional bytes data = 5; */
         if (message.data !== undefined)
             writer.tag(5, WireType.LengthDelimited).bytes(message.data);

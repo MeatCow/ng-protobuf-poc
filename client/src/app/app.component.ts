@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from  '@angular/common/http';
 import { Person } from './models/definitions';
+import { map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,19 +16,10 @@ export class AppComponent {
   ) {}
 
   onClick() {
-    
-    this.http.get('http://localhost:3333/', {responseType: 'arraybuffer'}).subscribe(r => {
-      const person = Person.fromBinary(new Uint8Array(r));
-      this.response = (this.toObject(person));
-    });
+    this.http.get('/api/hello', {responseType: 'arraybuffer'}).pipe(
+      map(p => Person.fromBinary(new Uint8Array(p))),
+      tap(p => console.log(p)),
+      tap(p => this.response = p),
+      ).subscribe();
   }
-
-  toObject(input: object) {
-    return JSON.parse(JSON.stringify(input, (_, value) =>
-        typeof value === 'bigint'
-            ? value.toString()
-            : value // return everything else unchanged
-    ));
-}
-
 }

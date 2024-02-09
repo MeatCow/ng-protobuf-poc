@@ -1,11 +1,24 @@
-<div class="list">
-
-  <button
-  (click)="onClick()">
-    Make a request
-  </button>
-
-  {{
-    response | json
-  }}
+<div class="flex flex-row justify-around">
+  <div class="flex flex-col">
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="getProto()">
+      Make a Protobuf Request
+    </button>
+    <span>
+      {{protoResponse | json}}
+    </span>
+    <span *ngIf="protoLength">
+      {{protoLength}} bytes
+    </span>
+  </div>
+  <div class="flex flex-col">
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="getJson()">
+      Make a Json Request
+    </button>
+    <span>
+      {{jsonResponse | json}}
+    </span>
+    <span *ngIf="jsonLength">
+      {{jsonLength}} bytes
+    </span>
+  </div>
 </div>

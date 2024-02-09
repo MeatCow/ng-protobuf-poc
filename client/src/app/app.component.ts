@@ -9,17 +9,39 @@ import { map, tap } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  response: Person | undefined;
+  protoResponse: Person | undefined;
+  protoLength: number | undefined;
+  jsonResponse: Person | undefined;
+  jsonLength: number | undefined;
 
   constructor(
     private readonly http: HttpClient
   ) {}
 
-  onClick() {
-    this.http.get('/api/hello', {responseType: 'arraybuffer'}).pipe(
-      map(p => Person.fromBinary(new Uint8Array(p))),
-      tap(p => console.log(p)),
-      tap(p => this.response = p),
+  getProto() {
+    this.http.get('/api/proto', {responseType: 'arraybuffer', observe: 'response'}).pipe(
+      tap(p => {
+        const length = p.headers.get('content-length');
+        if (length != null) {
+          this.protoLength = Number(length);
+        }
+      }),
+      map(p => p.body ? Person.fromBinary(new Uint8Array(p.body)) : undefined),
+      tap(p => this.protoResponse = p),
+      ).subscribe();
+  }
+
+  getJson() {
+    this.http.get<Person>('/api/json', {observe: 'response'}).pipe(
+      tap(p => {
+        const length = p.headers.get('content-length');
+        if (length != null) {
+          this.jsonLength = Number(length);
+        }
+      }),
+      tap(p => {
+        this.jsonResponse = p.body ? p.body as Person : undefined;
+      }),
       ).subscribe();
   }
 }
